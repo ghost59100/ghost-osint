@@ -1,0 +1,54 @@
+name: Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "13 8 * * *" # 8:13 AM UTC is 12:13 AM PT
+
+jobs:
+  update:
+    name: Update root DNS cache
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4.0.0
+        with:
+          token: ${{ secrets.DOMAINRBOT_RW_GITHUB_ACCESS_TOKEN }}
+          submodules: recursive
+
+      - name: Set up Go
+        uses: actions/setup-go@v4.1.0
+        with:
+          go-version: ^1
+
+      - name: Update root cache
+        run: go generate -v -x
+
+      - name: Vet Go code
+        run: go vet ./...
+
+      - name: Run Go tests
+        env:
+          DNSR_TIMEOUT: 10s
+        run: go test -mod=readonly -v -race ./...
+
+      - name: Commit changes
+        run: |
+          [[ -z $(git status -s) ]] || (
+            git config --global user.email robot@domainr.com
+            git config --global user.name domainrbot
+            git add -v --all .
+            git commit -m "Automatic update for `date -u`"
+            git push origin -u HEAD
+          )
+
+      - name: Notify if failure
+        if: ${{ failure() }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"❌ dnsr update failed."}' ${{ secrets.SLACK_WEBHOOK_URL_GH_ACTIONS }}
+
+      - name: Notify if success
+        if: ${{ success() }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"✅ dnsr updated."}' ${{ secrets.SLACK_WEBHOOK_URL_GH_ACTIONS }}

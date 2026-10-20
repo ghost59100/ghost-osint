@@ -1,0 +1,10 @@
+./cosine.go
+./hamming.go
+./jaccard.go
+./jaro.go
+./lcs.go
+./levenshtein.go
+./qgram.go
+./shingle.go
+./sorensen-dice.go
+./string-analysis.go

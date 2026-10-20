@@ -1,0 +1,5 @@
+./bindata.go
+./figlet-parser.go
+./figure.go
+./font.go
+./public_methods.go

@@ -1,0 +1,16 @@
+./address.go
+./constants.go
+./error.go
+./gravatar.go
+./handler.go
+./metadata_disposable.go
+./metadata_free.go
+./metadata_role.go
+./metadata_suggestion.go
+./misc.go
+./mx.go
+./schedule.go
+./smtp.go
+./suggestion.go
+./util.go
+./verifier.go
