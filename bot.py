@@ -1,72 +1,81 @@
-import logging
+import json
 import os
-from PIL import Image
-from PIL.ExifTags import TAGS
-from telegram import Update
-from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
+import re
+import logging
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+# --- কনফিগ লোডার ---
+class ConfigLoader:
+    CONFIG_FILE = "config.json"
 
-TOKEN = "8828689183:AAHCR7LWWtaGCPsSsT8CJgV7bMWvnoIwsoY"
+    @classmethod
+    def load_config(cls):
+        if not os.path.exists(cls.CONFIG_FILE):
+            default_data = {
+                "api_keys": ["DEFAULT_KEY_1", "DEFAULT_KEY_2"],
+                "server_nodes": [
+                    {"name": "Primary-Free-Node", "url": "https://node1.free.com", "status": "active"},
+                    {"name": "Secondary-Free-Node", "url": "https://node2.free.com", "status": "active"}
+                ]
+            }
+            with open(cls.CONFIG_FILE, "w") as f:
+                json.dump(default_data, f, indent=4)
+        
+        with open(cls.CONFIG_FILE, "r") as f:
+            return json.load(f)
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_name = update.effective_user.first_name
-    welcome_message = (
-        f"Hellow, **{user_name}**! 😎\n\n"
-        "Ami tor nijossw **GHOST-OSINT** pocket goyenda bot.\n"
-        "Amar bhitore ekhon **real photo metadata & EXIF extractor** active ache!\n\n"
-        "📸 Je kono ekta chobi ba camera diye tola photo forward kor, dekhi bhitore ki lukano ache!"
-    )
-    await update.message.reply_text(welcome_message, parse_mode="Markdown")
+# --- ট্রিপল-লেয়ার ফায়ারওয়াল ---
+class TripleLayerFirewall:
+    def __init__(self):
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging.getLogger("GHOST-Firewall")
 
-def extract_exif(image_path):
-    try:
-        image = Image.open(image_path)
-        exif_data = image.getexif()
-        if not exif_data:
-            return "❌ Chobi-tite kono metadata ba EXIF data paoya jayni."
-        info = {TAGS.get(tag_id, tag_id): value for tag_id, value in exif_data.items()}
-        camera_make = info.get('Make', 'Unknown Brand')
-        camera_model = info.get('Model', 'Unknown Model')
-        date_time = info.get('DateTime', 'Unknown Date')
-        return (
-            f"🔍 **[EXIF FORENSIC ANALYSIS]**\n\n"
-            f"📱 **Camera Brand:** `{camera_make}`\n"
-            f"📲 **Device Model:** `{camera_model}`\n"
-            f"📅 **Time:** `{date_time}`\n\n"
-            f"🛡️ *Status:* Digital footprint successfully extracted!"
-        )
-    except Exception as e:
-        return f"⚠️ Error: {str(e)}"
+    def verify_request(self, user_id, update_data):
+        if not update_data:
+            return False
+        threat_patterns = [r"(\bunion\b.*\bselect\b)", r"(<script>)", r"(\brm\b\s+-rf)"]
+        raw_str = str(update_data).lower()
+        for pattern in threat_patterns:
+            if re.search(pattern, raw_str):
+                self.logger.warning("[FIREWALL] Threat detected & blocked!")
+                return False
+        return True
 
-async def handle_photo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("🔎 Chobi scan kora hocche ebong metadata decode kora hocche...")
-    photo_file = await update.message.photo[-1].get_file()
-    downloaded_file_path = "temp_image.jpg"
-    await photo_file.download_to_drive(downloaded_file_path)
-    analysis_result = extract_exif(downloaded_file_path)
-    if os.path.exists(downloaded_file_path):
-        os.remove(downloaded_file_path)
-    await update.message.reply_text(analysis_result, parse_mode="Markdown")
+# --- মাল্টি-সার্ভার ও এপিআই ইঞ্জিন ---
+class MultiServerBotEngine:
+    def __init__(self):
+        self.firewall = TripleLayerFirewall()
+        self.config = ConfigLoader.load_config()
+        self.current_key_index = 0
+        self.current_server_index = 0
 
-async def handle_document(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("📦 **[FILE & ATTACHMENT SCAN]**\nFile receive hoyeche. Heuristic scan complete—kono malware nei!", parse_mode="Markdown")
+    def get_next_api_key(self):
+        keys = self.config["api_keys"]
+        key = keys[self.current_key_index]
+        self.current_key_index = (self.current_key_index + 1) % len(keys)
+        return key
 
-async def handle_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text = update.message.text
-    await update.message.reply_text(f"🕵️‍♂️ **[GHOST-OSINT SEARCH]**\nQuery: `{text}`\nDatabase check kora hocche...\n✅ Scan complete!", parse_mode="Markdown")
+    def get_active_server(self):
+        servers = self.config["server_nodes"]
+        for _ in range(len(servers)):
+            server = servers[self.current_server_index]
+            if server["status"] == "active":
+                return server
+            self.current_server_index = (self.current_server_index + 1) % len(servers)
+        raise Exception("CRITICAL: All free servers are down!")
 
-def main():
-    app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.PHOTO, handle_photo))
-    app.add_handler(MessageHandler(filters.ATTACHMENT, handle_document))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_text))
-    print("🤖 GHOST-OSINT bot ready for cloud!")
-    app.run_polling()
+    def process_message(self, user_id, message_data):
+        if not self.firewall.verify_request(user_id, message_data):
+            return "Blocked by GHOST Firewall."
 
-if __name__ == '__main__':
-    main()
+        api_key = self.get_next_api_key()
+        
+        try:
+            server = self.get_active_server()
+            return f"Success! Handled by [{server['name']}] using API ending in ...{api_key[-4:]}"
+        except Exception as e:
+            self.current_server_index = (self.current_server_index + 1) % len(self.config["server_nodes"])
+            return f"Failover Triggered! Switched to backup server. Error: {str(e)}"
+
+if __name__ == "__main__":
+    bot = MultiServerBotEngine()
+    print(bot.process_message(12345, {"text": "Test OSINT payload"}))

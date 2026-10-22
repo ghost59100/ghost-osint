@@ -4,3 +4,5 @@
 ignorant
 sherlock
 user-scanner
+config.json
+__pycache__/

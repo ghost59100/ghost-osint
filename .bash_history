@@ -358,3 +358,28 @@ TOKEN = "8828689183:AAHCR7LWWtaGCPsSsT8CJgV7bMWvnoIwsoY"
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 def main():
 nano bot.py
+apktool d /path/to/app.apk -o extracted_app
+cd extracted_app
+grep -rnw 'smali/' -e 'getRuntime().exec'
+grep -rnw 'smali/' -e 'http://'
+apktool d /sdcard/Download/ChatGPT_X.apk -o /sdcard/Download/chatgpt_extracted
+cd /sdcard/Download/chatgpt_extracted
+grep -rnw 'smali/' -e 'http://'
+grep -rnw 'smali/' -e 't.me'
+apktool b /sdcard/Download/chatgpt_extracted -o /sdcard/Download/ChatGPT_X_Clean.apk
+termux-setup-storage
+pkg update && pkg install java-openjdk wget -y
+wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/unix/apktool -O apktool
+wget https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.9.3.jar -O apktool.jar
+chmod +x apktool apktool.jar
+mv apktool apktool.jar $PREFIX/bin/
+pkg update && pkg install wget openjdk-17 -y
+pkg install openjdk -y
+pkg update -y
+pkg install default-jdk -y
+termux-change-repo
+wget https://raw.githubusercontent.com/iBotPeaches/Apktool/master/scripts/unix/apktool -O apktool
+wget https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.9.3.jar -O apktool.jar
+chmod +x apktool apktool.jar
+mv apktool apktool.jar $PREFIX/bin/
+apktool d ~/storage/shared/Download/ChatGPT_X.apk -o ~/storage/shared/Download/chatgpt_extracted
