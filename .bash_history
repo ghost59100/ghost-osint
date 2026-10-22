@@ -383,3 +383,63 @@ wget https://bitbucket.org/iBotPeaches/apktool/downloads/apktool_2.9.3.jar -O ap
 chmod +x apktool apktool.jar
 mv apktool apktool.jar $PREFIX/bin/
 apktool d ~/storage/shared/Download/ChatGPT_X.apk -o ~/storage/shared/Download/chatgpt_extracted
+import os
+class Config:
+import re
+import logging
+class TripleLayerFirewall:
+import time
+from config import Config
+from firewall import TripleLayerFirewall
+class MultiServerBotEngine:
+# টেস্ট এক্সিকিউশন
+if __name__ == "__main__":;     bot = MultiServerBotEngine()
+nano ghost_bot.py
+python ghost_buf.py
+python ghost_bot.py
+{   "api_keys": [;     "YOUR_API_KEY_1",;     "YOUR_API_KEY_2",;     "YOUR_API_KEY_3";   ],;   "server_nodes": [;     {"name": "Free-Server-01", "url": "https://free-server-1.example.com", "status": "active"},;     {"name": "Free-Server-02", "url": "https://free-server-2.example.com", "status": "active"},;     {"name": "Backup-Node-03", "url": "https://free-server-3.example.com", "status": "active"};   ]; }
+import json
+import os
+import re
+import logging
+# --- কনফিগ লোডার (এক্সটার্নাল ফাইল থেকে ডাটা রিড করবে) ---
+class ConfigLoader:
+# --- ট্রিপল-লেয়ার ফায়ারওয়াল ---
+class TripleLayerFirewall:
+# --- মাল্টি-সার্ভার ও এপিআই ইঞ্জিন ---
+class MultiServerBotEngine:
+if __name__ == "__main__":;     bot = MultiServerBotEngine()
+nano config.json
+nano bot.py
+rm bot.py
+nano bot.py
+python bot.py
+cd GHOST-OSINT-Bot
+git init
+git remote add origin https://github.com/তোর_ইউজারনেম/GHOST-OSINT-Bot.git
+nano .gitignore
+config.json
+__pycache__/
+nano update.sh
+chmod +x update.sh
+nano .gitignore
+git init
+git remote add origin https://github.com/তোমার_ইউজারনেম/GHOST-OSINT-Bot.git
+git add .
+git commit -m "GHOST-OSINT Bot: Multi-API, Firewall and Auto-Update ready"
+git branch -M main
+git push -u origin main
+./update.sh
+{   "api_keys": [;     "YOUR_API_KEY_1",;     "YOUR_API_KEY_2",;     "YOUR_API_KEY_3";   ],;   "server_nodes": [;     {       "name": "VisiHost-Primary-Node",;       "url": "https://visihost.in",;       "status": "active";     },;     {       "name": "Backup-Node-02",;       "url": "https://free-server-2.example.com",;       "status": "active";     },;     {       "name": "Backup-Node-03",;       "url": "https://free-server-3.example.com",;       "status": "active";     };   ]; }; nano config.json; 
+nano config.json
+python bot.py
+nano config.json
+rm config.json
+nano config.json
+python bot.py
+{   "api_keys": [;     "tutor_asol_api_key_1",;     "tutor_asol_api_key_2";   ],;   "server_nodes": [;     {       "name": "VisiHost-Primary-Cloud",;       "url": "https://visihost.in",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-02",;       "url": "https://ekhane-tor-dwitiyo-free-server-link.com",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-03",;       "url": "https://ekhane-tor-tritio-free-server-link.com",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-04",;       "url": "https://ekhane-ar-o-aktā-free-server-link.com",;       "status": "active";     };   ]; }
+{   "api_keys": [;     "tutor_asol_api_key_1",;     "tutor_asol_api_key_2";   ],;   "server_nodes": [;     {       "name": "VisiHost-Primary-Node",;       "url": "https://visihost.in",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-02",;       "url": "https://ekhane-tor-dwitiyo-free-server-link.com",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-03",;       "url": "https://ekhane-tor-tritio-free-server-link.com",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-04",;       "url": "https://ekhane-ar-o-aktā-free-server-link.com",;       "status": "active";     };   ]; };  {   "api_keys": [;     "tutor_asol_api_key_1",;     "tutor_asol_api_key_2";   ],;   "server_nodes": [;     {       "name": "VisiHost-Primary-Node",;       "url": "https://visihost.in",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-02",;       "url": "https://ekhane-tor-dwitiyo-free-server-link.com",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-03",;       "url": "https://ekhane-tor-tritio-free-server-link.com",;       "status": "active";     },;     {       "name": "Free-Cloud-Node-04",;       "url": "https://ekhane-ar-o-aktā-free-server-link.com",;       "status": "active";     };   ]; }
+nano config.json
+rm config.json
+nano config.json
+python bot.py
